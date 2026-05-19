@@ -1,0 +1,10 @@
+.buttonClass {
+    background-color: blue;
+    color: white;
+    padding: 5px 10px;
+    border: 1px solid darkblue;
+}
+.greenButton {
+    background-color: green;
+    border-color: limegreen;
+}
