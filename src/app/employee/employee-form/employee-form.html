@@ -1,25 +1,46 @@
 <div class="card">
     <div class="card-header">Create Employee</div>
     <div class="card-body">
-        <form>
+        <form [formGroup]="employeeForm" (ngSubmit)="save()">
             <div class="mb-3">
                 <label for="name" class="form-label">Employee Name</label>
-                <input type="text" [(ngModel)]="employee.name" name="name" class="form-control" id="name"
-                    placeholder="Ahmed">
+                <input type="text" formControlName="name" name="name" class="form-control" id="name" placeholder="Ahmed"
+                    [ngClass]="{'is-invalid': ef.name.invalid && (ef.name.touched || ef.name.dirty)}">
+                @if(ef.name.hasError('minlength')){
+                <small style="color: red;">Must be at least 3 characters.</small>
+                }
             </div>
             <div class="mb-3">
                 <label for="departmentId" class="form-label">Department Id</label>
-                <input type="number" [(ngModel)]="employee.departmentId" name="departmentId" class="form-control"
-                    id="email" placeholder="0">
+                <select class="form-select" formControlName="departmentId"
+                    [ngClass]="{'is-invalid': ef.departmentId.invalid && (ef.departmentId.touched || ef.departmentId.dirty)}">
+                    @for (department of departmentList(); track $index) {
+                    <option [value]="department.id">{{department.name}}</option>
+                    }
+                </select>
+
             </div>
             <div class="mb-3">
                 <label for="salary" class="form-label">Employee Salary</label>
-                <input type="number" [(ngModel)]="employee.salary" name="salary" class="form-control" id="salary" />
+                <input type="number" formControlName="salary" name="salary" class="form-control" id="salary"
+                    [ngClass]="{'is-invalid': ef.salary.invalid && (ef.salary.touched || ef.salary.dirty)}" />
+            </div>
+            <div formArrayName="projectIds" class="mb-3">
+                @for (control of itemsFromArray.controls; track $index) {
+                <div class="checkbox-wrapper">
+                    <label>
+                        <input type="checkbox" [formControlName]="$index" />
+                        {{projectList()[$index].name}}
+                    </label>
+                </div>
+                }
+                @if(itemsFromArray.hasError('require') && ef.projectIds.touched){
+                <small style="color: red;">Must select at least one project</small>
+                }
             </div>
             <div class="mb-3">
-                <button type="button" (click)="save()" class="btn btn-primary">Save</button>
+                <button type="submit" [disabled]="employeeForm.invalid" class="btn btn-primary">Save</button>
             </div>
         </form>
     </div>
 </div>
-{{employee | json}}

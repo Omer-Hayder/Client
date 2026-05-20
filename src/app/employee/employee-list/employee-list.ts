@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Employee } from '../../_services/employee';
 import { EmployeeDto } from '../../_models/employee-dto';
 
@@ -12,24 +12,25 @@ export class EmployeeList implements OnInit {
 
   private employeeService = inject(Employee);
 
-  employeeList: EmployeeDto[] = [];
+  employeeList = signal<EmployeeDto[]>([]);
+  isLoading = signal<boolean>(false);
 
   ngOnInit(): void {
     this.loadEmployees();
   }
 
   loadEmployees() {
+    this.isLoading.set(true);
     this.employeeService.getEmployees().subscribe(
       {
         next: (response) => {
           console.log(response);
-          this.employeeList = response;
+          this.employeeList.set(response);
+          this.isLoading.set(false);
         },
         error: (error) => {
           console.log(error.error);
-        },
-        complete: () => {
-          console.log("Complete.");
+          this.isLoading.set(false);
         }
       }
     )
