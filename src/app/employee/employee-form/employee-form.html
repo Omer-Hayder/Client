@@ -25,8 +25,21 @@
                 <input type="number" formControlName="salary" name="salary" class="form-control" id="salary"
                     [ngClass]="{'is-invalid': ef.salary.invalid && (ef.salary.touched || ef.salary.dirty)}" />
             </div>
+            <div formArrayName="projectIds" class="mb-3">
+                @for (control of itemsFromArray.controls; track $index) {
+                <div class="checkbox-wrapper">
+                    <label>
+                        <input type="checkbox" [formControlName]="$index" />
+                        {{projectList()[$index].name}}
+                    </label>
+                </div>
+                }
+                @if(itemsFromArray.hasError('require') && ef.projectIds.touched){
+                <small style="color: red;">Must select at least one project</small>
+                }
+            </div>
             <div class="mb-3">
-                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="submit" [disabled]="employeeForm.invalid" class="btn btn-primary">Save</button>
             </div>
         </form>
     </div>
