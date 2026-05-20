@@ -1,12 +1,13 @@
 import { JsonPipe, NgClass } from '@angular/common';
-import { ChangeDetectionStrategy, Component, effect, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, OnInit, output, Output, signal } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
-import { Employee } from '../../_services/employee';
+import { EmployeeService } from '../../_services/employee-service';
 import { DepartmentService } from '../../_services/department-service';
 import { DepartmentDto } from '../../_models/department-dto';
 import { ToastrService } from 'ngx-toastr';
 import { ProjectService } from '../../_services/project-service';
 import { ProjectDto } from '../../_models/project-dto';
+import { EventEmitter } from 'node:stream';
 
 @Component({
   selector: 'app-employee-form',
@@ -16,7 +17,9 @@ import { ProjectDto } from '../../_models/project-dto';
   styleUrl: './employee-form.css',
 })
 export class EmployeeForm implements OnInit {
-  private employeeService = inject(Employee);
+  event = output<string>();
+
+  private employeeService = inject(EmployeeService);
   private departmentService = inject(DepartmentService);
   private projectService = inject(ProjectService);
   private fb = inject(FormBuilder);
@@ -78,6 +81,7 @@ export class EmployeeForm implements OnInit {
 
   save() {
     console.log(this.employeeForm.value);
+    this.event.emit('');
     if (this.employeeForm.invalid) {
       this.employeeForm.markAllAsTouched();
       return;

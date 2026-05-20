@@ -1,16 +1,20 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { Employee } from '../../_services/employee';
+import { Component, inject, OnInit, signal, TemplateRef } from '@angular/core';
+import { EmployeeService } from '../../_services/employee-service';
 import { EmployeeDto } from '../../_models/employee-dto';
+import { RouterLink } from "@angular/router";
+import { EmployeeForm } from "../employee-form/employee-form";
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-employee-list',
-  imports: [],
+  imports: [RouterLink, EmployeeForm],
   templateUrl: './employee-list.html',
   styleUrl: './employee-list.css',
 })
 export class EmployeeList implements OnInit {
-
-  private employeeService = inject(Employee);
+  modalRef?: BsModalRef;
+  private modalService = inject(BsModalService);
+  private employeeService = inject(EmployeeService);
 
   employeeList = signal<EmployeeDto[]>([]);
   isLoading = signal<boolean>(false);
@@ -34,6 +38,14 @@ export class EmployeeList implements OnInit {
         }
       }
     )
+  }
+
+  openModal(template: TemplateRef<void>) {
+    this.modalRef = this.modalService.show(template);
+  }
+
+  closeModal(event: any) {
+    this.modalRef?.hide();
   }
 
 }

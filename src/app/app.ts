@@ -1,12 +1,12 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, RouterLinkWithHref } from '@angular/router';
 import { EmployeeForm } from "./employee/employee-form/employee-form";
 import { EmployeeList } from './employee/employee-list/employee-list';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, FormsModule, EmployeeForm, EmployeeList],
+  imports: [RouterOutlet, FormsModule, RouterLinkWithHref],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
