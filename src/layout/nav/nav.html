@@ -1,0 +1,41 @@
+<div
+    class="navbar navbar-expand-lg bg-body-tertiary d-flex flex-wrap align-items-center bg-info justify-content-center justify-content-lg-start">
+    <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+        <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+            <use xlink:href="#bootstrap"></use>
+        </svg>
+    </a>
+    <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+        <li class="nav-item"><a [routerLink]="'/'" class="nav-link px-2 text-secondary">Home</a></li>
+        <li class="nav-item"><a [routerLink]="'/employee-list'" class="nav-link px-2">Employees</a></li>
+    </ul>
+    <form id="loginForm" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" [formGroup]="loginForm" (ngSubmit)="login()">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <input type="text" formControlName="username" class="form-control" placeholder="username" id="username"
+                    [ngClass]="{'is-invalid': lf.username.invalid && (lf.username.dirty || lf.username.touched)}">
+            </div>
+            <div class="col-md-6">
+                <input type="password" formControlName="password" class="form-control" placeholder="password"
+                    id="password"
+                    [ngClass]="{'is-invalid': lf.password.invalid && (lf.password.dirty || lf.password.touched)}">
+            </div>
+        </div>
+    </form>
+    <div class="text-end">
+        <button type="submit" form="loginForm" class="btn btn-outline-success me-2">Login</button>
+    </div>
+    <div class="dropdown text-end">
+        <a dropdownToggle class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
+            data-bs-toggle="dropdown" aria-expanded="false"> <img src="/user.png" alt="user" width="32" height="32"
+                class="rounded-circle"> </a>
+        <ul *dropdownMenu class="dropdown-menu text-small">
+            <li><a role="menuitem" class="dropdown-item">Settings</a></li>
+            <li><a role="menuitem" class="dropdown-item">Profile</a></li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li><a role="menuitem" class="dropdown-item" href="#">Sign out</a></li>
+        </ul>
+    </div>
+</div>
