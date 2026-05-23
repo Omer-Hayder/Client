@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { map, Observable } from 'rxjs';
 import { User } from '../models/user.model';
@@ -9,9 +9,11 @@ import { User } from '../models/user.model';
 })
 export class AuthService {
   private httpClient = inject(HttpClient);
-  currentUser = signal<User | null>(null);
+  currentUser = signal<User | null>(this.loadUser());
 
-  private url = environment.apiUrl + "/api/Authentications"
+  private url = environment.apiUrl + "/api/Authentications";
+  isAuthenticated = computed(() => !!this.currentUser());
+
 
   roles = computed(() => {
     const user = this.currentUser();
@@ -24,12 +26,17 @@ export class AuthService {
 
   login(model: any) {
     let url = this.url + "/login"
-    this.httpClient.post<any>(url, model).pipe(
+    return this.httpClient.post<User>(url, model).pipe(
       map(user => {
         if (user)
           this.setCurrentUser(user)
       })
     );
+  }
+
+  loadUser(): User | null {
+    let user = localStorage.getItem('user');
+    return user ? JSON.parse(user) : null;
   }
 
   setCurrentUser(user: User) {

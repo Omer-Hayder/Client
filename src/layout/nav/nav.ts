@@ -1,10 +1,10 @@
 import { NgClass } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth-service';
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BsDropdownConfig, BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-nav',
@@ -14,7 +14,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 })
 export class Nav {
   private fb = inject(FormBuilder);
-  private loginService = inject(AuthService);
+  private router = inject(Router);
+  protected loginService = inject(AuthService);
 
   loginForm = this.fb.group({
     username: ['', Validators.required],
@@ -29,10 +30,17 @@ export class Nav {
       return;
     }
     var creds = this.loginForm.value;
-    console.log(creds);
+
     this.loginService.login(creds).subscribe({
-      next: (response) => { console.log(response) },
-      error: (error) => { alert(error.message); }
+      next: (response) => {
+        this.loginForm.reset();
+        this.router.navigateByUrl("/employee-list");
+      }
     });
+  }
+
+  signOut() {
+    this.loginService.logout();
+    this.router.navigateByUrl("/");
   }
 }

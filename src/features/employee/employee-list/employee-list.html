@@ -40,12 +40,12 @@
 
 <ng-template #employeeModal>
     <div class="modal-header">
-        <h4 class="modal-title pull-left" id="my-modal-title">Create Employee</h4>
+        <h4 class="modal-title pull-left text-primary" id="my-modal-title">Add New Employee</h4>
         <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
             <span aria-hidden="true" class="visually-hidden">&times;</span>
         </button>
     </div>
-    <div class="modal-body modal-lg text-center">
+    <div class="modal-body alert alert-primary modal-lg">
         <app-employee-form (event)="closeModal($event)"></app-employee-form>
     </div>
 </ng-template>
