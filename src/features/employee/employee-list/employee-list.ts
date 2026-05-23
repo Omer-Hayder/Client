@@ -31,10 +31,6 @@ export class EmployeeList implements OnInit {
           console.log(response);
           this.employeeList.set(response);
           this.isLoading.set(false);
-        },
-        error: (error) => {
-          console.log(error.error);
-          this.isLoading.set(false);
         }
       }
     )

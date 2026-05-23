@@ -1,12 +1,13 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterOutlet, RouterLinkWithHref } from '@angular/router';
-import { EmployeeForm } from "./employee/employee-form/employee-form";
-import { EmployeeList } from './employee/employee-list/employee-list';
+import { EmployeeForm } from "../features/employee/employee-form/employee-form";
+import { EmployeeList } from '../features/employee/employee-list/employee-list';
+import { Nav } from '../layout/nav/nav';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, FormsModule, RouterLinkWithHref],
+  imports: [RouterOutlet, Nav, FormsModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

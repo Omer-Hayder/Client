@@ -1,0 +1,6 @@
+.dropdown-style{
+    position: absolute !important;
+    inset: 0px 0px auto auto !important;
+    margin: 0px !important;
+    transform: translate(0px, 34px) !important;
+}
